@@ -85,6 +85,7 @@ button:hover { background: #33d6ff; }
 <p id="correctAnswer"></p>
 <button id="showAnswerBtn" onclick="toggleAnswer()">إظهار الإجابة</button>
 <button onclick="nextQuestion()">➡️ السؤال التالي</button>
+<button onclick="prevQuestion()">⬅️ السؤال السابق</button>
 
 <div class="teamBox">
   <div class="team">
@@ -237,6 +238,14 @@ function nextQuestion(){
     document.getElementById("question").innerText="انتهت المسابقة 🎉";
     document.getElementById("answers").innerHTML="";
     document.getElementById("result").innerText="نهاية المسابقة";
+  }
+}
+
+// ✅ إضافة وظيفة السؤال السابق
+function prevQuestion(){
+  if(current > 0){
+    current--;
+    loadQuestion();
   }
 }
 
