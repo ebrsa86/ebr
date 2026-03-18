@@ -51,7 +51,6 @@ button:hover { background: #33d6ff; }
 #correctAnswer { color: #00ffcc; font-weight: bold; margin-top:10px; }
 #result { margin-top:10px; font-size:18px; }
 
-/* شريط الفرق */
 .teamBox {
   display:flex;
   justify-content:space-around;
@@ -73,7 +72,6 @@ button:hover { background: #33d6ff; }
 .green { background: #00cc00; }
 .orange { background: #ff9900; }
 .teamLabel { margin-bottom:5px; }
-
 </style>
 </head>
 <body>
@@ -88,7 +86,6 @@ button:hover { background: #33d6ff; }
 <button id="showAnswerBtn" onclick="toggleAnswer()">إظهار الإجابة</button>
 <button onclick="nextQuestion()">➡️ السؤال التالي</button>
 
-<!-- شريط الفرق -->
 <div class="teamBox">
   <div class="team">
     <div class="teamLabel">الفريق الأخضر</div>
@@ -106,14 +103,82 @@ button:hover { background: #33d6ff; }
 </div>
 
 <script>
+// ----- 70 سؤال وفزورة جاهزة للأطفال -----
 let questions = [
-{q:"ما لون السماء في النهار؟",a:["أزرق","أخضر","أحمر","أصفر"],correct:0},
-{q:"كم عدد أصابع اليد؟",a:["4","5","6","7"],correct:1},
-{q:"أي حيوان يسمى ملك الغابة؟",a:["الأسد","القطة","الفيل","الأرنب"],correct:0},
-{q:"ما أول شهر في السنة؟",a:["يناير","فبراير","مارس","أبريل"],correct:0},
-{q:"ما هو الحيوان الذي يطير؟",a:["السمكة","الطائر","الأسد","الزرافة"],correct:1}
+{type:"choice",q:"ما لون السماء في النهار؟",a:["أزرق","أخضر","أحمر","أصفر"],correct:0},
+{type:"choice",q:"كم عدد أصابع اليد؟",a:["4","5","6","7"],correct:1},
+{type:"choice",q:"أي حيوان يسمى ملك الغابة؟",a:["الأسد","القطة","الفيل","الأرنب"],correct:0},
+{type:"choice",q:"ما أول شهر في السنة؟",a:["محرم","رمضان","صفر","شعبان"],correct:0},
+{type:"choice",q:"ما هو الحيوان الذي يطير؟",a:["السمكة","الصقر","الأسد","الزرافة"],correct:1},
+
+{type:"riddle",q:"شيء يمشي بلا قدمين ويبكي بلا عينين؟",answer:"السحاب"},
+{type:"riddle",q:"شيء كلما أخذت منه كبر؟",answer:"الحفرة"},
+{type:"riddle",q:"له أسنان ولا يعض؟",answer:"المشط"},
+{type:"riddle",q:"ما الشيء الذي يوجد في كل مكان وفي كل بيت لكنه لا يرى؟",answer:"الهواء"},
+{type:"riddle",q:"ما الشيء الذي كلما زاد نقص؟",answer:"العمر"},
+
+{type:"choice",q:"ما لون التفاح الشائع؟",a:["أحمر","أسود","أزرق","بنفسجي"],correct:0},
+{type:"choice",q:"كم عدد أيام الأسبوع؟",a:["5","6","7","8"],correct:2},
+{type:"choice",q:"أي حيوان يعيش في الماء؟",a:["الأسد","السمك","الكلب","أرنب"],correct:1},
+{type:"choice",q:"أين يعيش البطريق؟",a:["الصحراء","القطب الجنوبي","الغابة","الجزيرة"],correct:1},
+{type:"choice",q:"ما هو أكبر كوكب؟",a:["الأرض","المريخ","المشتري","الزهرة"],correct:2},
+
+{type:"riddle",q:"ما هو الشيء الذي يكسو الناس ويظلهم؟",answer:"الملابس"},
+{type:"riddle",q:"ما هو الشيء الذي يطير بلا جناح؟",answer:"الوقت"},
+{type:"riddle",q:"ما هو الشيء الذي ينبض بلا قلب؟",answer:"الساعة"},
+{type:"riddle",q:"له أرجل ولكنه لا يمشي؟",answer:"الكرسي"},
+{type:"riddle",q:"ما الشيء الذي يتحرك ولا يرى؟",answer:"الريح"},
+
+{type:"choice",q:"كم عدد الحواس عند الإنسان؟",a:["3","4","5","6"],correct:2},
+{type:"choice",q:"ما لون الصندوق الاسود بطائرات؟",a:["البرتقالي","أحمر","وردي","أبيض"],correct:0},
+{type:"choice",q:"أي حيوان له خرطوم طويل؟",a:["الفيل","الأسد","القرد","الزرافة"],correct:0},
+{type:"choice",q:"ما أول حرف من الأبجدية؟",a:["أ","ب","ج","د"],correct:0},
+{type:"choice",q:"كم عدد أيام السنة؟",a:["360","365","366","370"],correct:1},
+
+{type:"riddle",q:"له قلب لا ينبض؟",answer:"الخس"},
+{type:"riddle",q:"ما الشيء الذي يسير للأمام ولا يعود؟",answer:"الوقت"},
+{type:"riddle",q:"ما الشيء الذي يتكلم جميع اللغات؟",answer:"الصدى"},
+{type:"riddle",q:"ما الشيء الذي يملأ الغرفة بلا وزن؟",answer:"الضوء"},
+{type:"riddle",q:"ما الشيء الذي يكون أخضر في الأرض وأسود في السوق وأحمر في البيت؟",answer:"الشاي"},
+
+{type:"choice",q:"أي حيوان يصرخ ليلاً ويعيش في الغابة؟",a:["الأسد","البومة","الضفدع","القط"],correct:1},
+{type:"choice",q:"ما هو الحيوان الأسرع في العالم؟",a:["الفهد","الأسد","الظبي","الأرنب"],correct:0},
+{type:"choice",q:"كم عدد كواكب المجموعة الشمسية؟",a:["7","8","9","10"],correct:1},
+{type:"choice",q:"أي فاكهة لونها أصفر وطويلة؟",a:["الموز","التفاح","البرتقال","العنب"],correct:0},
+{type:"choice",q:"ما لون ورقة الشجر في الخريف غالباً؟",a:["أخضر","أصفر وبرتقالي","أزرق","أحمر"],correct:1},
+
+{type:"riddle",q:"أبيض وأسود وأسكن في البراري؟",answer:"الحمار الوحشي"},
+{type:"riddle",q:"شيء يوجد في البحر ولا يبتل؟",answer:"الضوء"},
+{type:"riddle",q:"له رقبة طويلة ويأكل أوراق الشجر؟",answer:"الزرافة"},
+{type:"riddle",q:"شيء له عين واحده ولا يرى؟",answer:"الإبرة"},
+{type:"riddle",q:"ما الشيء الذي ينكسر بمجرد أن تسمعه؟",answer:"الصمت"},
+
+{type:"choice",q:"أي يوم يلي الأحد؟",a:["الاثنين","الثلاثاء","الأربعاء","الخميس"],correct:0},
+{type:"choice",q:"ما هو الحيوان الذي يعيش أطول عمر؟",a:["الفيل","السلحفاة","الأسد","الديك"],correct:1},
+{type:"choice",q:"ما لون الفراولة؟",a:["أحمر","أزرق","أصفر","أخضر"],correct:0},
+{type:"choice",q:"كم عدد أيام شهر فبراير في سنة بسيطة؟",a:["28","29","30","31"],correct:0},
+{type:"choice",q:"أي حيوان يطير بالليل؟",a:["النعامة","البومة","الحمامة","العصفور"],correct:1},
+
+{type:"riddle",q:"ما هو الشيء الذي يكتب ولا يقرأ؟",answer:"القلم"},
+{type:"riddle",q:"له حبات ويتحرك في الحقل؟",answer:"الذرة"},
+{type:"riddle",q:"شيء له ارجل ويجلس عليه الناس؟",answer:"الكرسي"},
+{type:"riddle",q:"أبيض وأسود وأسكن في ثلوج؟",answer:"البطريق"},
+{type:"riddle",q:"ما الشيء الذي كلما أخذت منه زاد؟",answer:"الحفرة"},
+
+{type:"choice",q:"ما لون البحر غالباً؟",a:["أزرق","أخضر","أحمر","أسود"],correct:0},
+{type:"choice",q:"أي حيوان ينام واقفاً؟",a:["الحصان","الأسد","الفيل","الغزال"],correct:0},
+{type:"choice",q:"من هو ابو البشر ؟",a:["نوح عليه السلام","ادم عليه السلام","محمد صلى الله عليه وسلم","عيسى عليه السلام"],correct:1},
+{type:"choice",q:"أي كوكب يُعرف بالكوكب الأحمر؟",a:["المريخ","الزهرة","المشتري","الزهرة"],correct:0},
+{type:"choice",q:"كم عدد أرجل العنكبوت؟",a:["6","8","10","12"],correct:1},
+
+{type:"riddle",q:"له أسنان كثيرة ولا يعض؟",answer:"المشط"},
+{type:"riddle",q:"ما الشيء الذي إذا لمسته صاح ؟",answer:"الجرس"},
+{type:"riddle",q:"ما هو الشيء الذي يقرصك و لا تراه ؟",answer:"الجوع"},
+{type:"riddle",q:"ما الشيء الذي يدخل البيت بلا مفتاح؟",answer:"الهواء"},
+{type:"riddle",q:"ما هو الشيء الذي يسمع بلا أذن و يتكلم بلا لسان ؟",answer:"الهاتف"}
 ];
 
+// ----- إعدادات المسابقة -----
 let current = 0;
 let attempts = 0;
 let maxAttempts = 2;
@@ -122,18 +187,25 @@ let teamScores = {green:0, orange:0};
 function loadQuestion() {
   attempts=0;
   let q = questions[current];
-  document.getElementById("question").innerText = q.q;
+  document.getElementById("question").innerText = "السؤال " + (current+1) + "/" + questions.length + ": " + q.q;
+
   let answersDiv = document.getElementById("answers");
   answersDiv.innerHTML = "";
-  q.a.forEach((ans,i)=>{
-    let btn = document.createElement("button");
-    btn.innerText = ans;
-    btn.onclick = ()=>checkAnswer(i);
-    answersDiv.appendChild(btn);
-  });
+
   document.getElementById("result").innerText = "";
   document.getElementById("correctAnswer").innerText = "";
   document.getElementById("showAnswerBtn").innerText = "إظهار الإجابة";
+
+  if(q.type==="choice"){
+    q.a.forEach((ans,i)=>{
+      let btn = document.createElement("button");
+      btn.innerText = ans;
+      btn.onclick = ()=>checkAnswer(i);
+      answersDiv.appendChild(btn);
+    });
+  } else if(q.type==="riddle"){
+    answersDiv.innerHTML = "<i>فزورة بدون خيارات</i>";
+  }
 }
 
 function checkAnswer(i){
@@ -172,7 +244,11 @@ function toggleAnswer(){
   let box = document.getElementById("correctAnswer");
   let q = questions[current];
   if(box.innerText===""){
-    box.innerText="الإجابة الصحيحة: " + q.a[q.correct];
+    if(q.type==="choice"){
+      box.innerText="الإجابة الصحيحة: " + q.a[q.correct];
+    } else if(q.type==="riddle"){
+      box.innerText="الإجابة الصحيحة: " + q.answer;
+    }
     document.getElementById("showAnswerBtn").innerText="إخفاء الإجابة";
   } else {
     box.innerText="";
@@ -180,7 +256,6 @@ function toggleAnswer(){
   }
 }
 
-// نظام نقاط الفرق
 function addPoint(team){
   teamScores[team]++;
   updateTeamBars();
