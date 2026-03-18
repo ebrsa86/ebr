@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>مسابقة عبدالله 🌟</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin:0;
+  padding:0;
+  min-height: 100vh;
+  color: white;
+  background-image: url('https://i.pinimg.com/736x/14/cf/e9/14cfe9109c3c3b46d59686696518639b.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.box {
+  margin: 50px auto;
+  padding: 25px;
+  background: rgba(0,0,50,0.7);
+  border-radius: 15px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 0 15px #00ccff;
+}
+
+h1 { color: #00ccff; margin-bottom: 15px; }
+h2 { margin-bottom: 15px; }
+
+button {
+  display: block;
+  margin: 8px auto;
+  padding: 12px;
+  width: 65%;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #00ccff;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+}
+button:hover { background: #33d6ff; }
+
+#showAnswerBtn { opacity: 0.1; font-size: 12px; }
+#showAnswerBtn:hover { opacity: 1; }
+
+#correctAnswer { color: #00ffcc; font-weight: bold; margin-top:10px; }
+#result { margin-top:10px; font-size:18px; }
+
+/* شريط الفرق */
+.teamBox {
+  display:flex;
+  justify-content:space-around;
+  margin:15px 0;
+}
+.team { width:45%; }
+.barOuter {
+  background: rgba(255,255,255,0.2);
+  height:25px;
+  border-radius:8px;
+  margin:5px 0;
+}
+.barInner {
+  height:100%;
+  border-radius:8px;
+  width:0%;
+  transition: width 0.5s;
+}
+.green { background: #00cc00; }
+.orange { background: #ff9900; }
+.teamLabel { margin-bottom:5px; }
+
+</style>
+</head>
+<body>
+
+<div class="box">
+<h1>🌟 مسابقة عبدالله 🌟</h1>
+
+<h2 id="question"></h2>
+<div id="answers"></div>
+<p id="result"></p>
+<p id="correctAnswer"></p>
+<button id="showAnswerBtn" onclick="toggleAnswer()">إظهار الإجابة</button>
+<button onclick="nextQuestion()">➡️ السؤال التالي</button>
+
+<!-- شريط الفرق -->
+<div class="teamBox">
+  <div class="team">
+    <div class="teamLabel">الفريق الأخضر</div>
+    <div class="barOuter"><div id="greenBar" class="barInner green"></div></div>
+    <button onclick="addPoint('green')">✅ +1</button>
+  </div>
+  <div class="team">
+    <div class="teamLabel">الفريق البرتقالي</div>
+    <div class="barOuter"><div id="orangeBar" class="barInner orange"></div></div>
+    <button onclick="addPoint('orange')">✅ +1</button>
+  </div>
+</div>
+<p id="scoreText">نقاط الفرق: الأخضر 0 - البرتقالي 0</p>
+
+</div>
+
+<script>
+let questions = [
+{q:"ما لون السماء في النهار؟",a:["أزرق","أخضر","أحمر","أصفر"],correct:0},
+{q:"كم عدد أصابع اليد؟",a:["4","5","6","7"],correct:1},
+{q:"أي حيوان يسمى ملك الغابة؟",a:["الأسد","القطة","الفيل","الأرنب"],correct:0},
+{q:"ما أول شهر في السنة؟",a:["يناير","فبراير","مارس","أبريل"],correct:0},
+{q:"ما هو الحيوان الذي يطير؟",a:["السمكة","الطائر","الأسد","الزرافة"],correct:1}
+];
+
+let current = 0;
+let attempts = 0;
+let maxAttempts = 2;
+let teamScores = {green:0, orange:0};
+
+function loadQuestion() {
+  attempts=0;
+  let q = questions[current];
+  document.getElementById("question").innerText = q.q;
+  let answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+  q.a.forEach((ans,i)=>{
+    let btn = document.createElement("button");
+    btn.innerText = ans;
+    btn.onclick = ()=>checkAnswer(i);
+    answersDiv.appendChild(btn);
+  });
+  document.getElementById("result").innerText = "";
+  document.getElementById("correctAnswer").innerText = "";
+  document.getElementById("showAnswerBtn").innerText = "إظهار الإجابة";
+}
+
+function checkAnswer(i){
+  let q = questions[current];
+  if(attempts>=maxAttempts) return;
+  if(i===q.correct){
+    document.getElementById("result").innerText="✔ إجابة صحيحة";
+    disableAnswers();
+  } else {
+    attempts++;
+    if(attempts>=maxAttempts){
+      document.getElementById("result").innerText="❌ انتهت المحاولات";
+      disableAnswers();
+    } else {
+      document.getElementById("result").innerText="❌ حاول مرة أخرى";
+    }
+  }
+}
+
+function disableAnswers(){
+  document.querySelectorAll("#answers button").forEach(btn=>btn.disabled=true);
+}
+
+function nextQuestion(){
+  current++;
+  if(current < questions.length){
+    loadQuestion();
+  } else {
+    document.getElementById("question").innerText="انتهت المسابقة 🎉";
+    document.getElementById("answers").innerHTML="";
+    document.getElementById("result").innerText="نهاية المسابقة";
+  }
+}
+
+function toggleAnswer(){
+  let box = document.getElementById("correctAnswer");
+  let q = questions[current];
+  if(box.innerText===""){
+    box.innerText="الإجابة الصحيحة: " + q.a[q.correct];
+    document.getElementById("showAnswerBtn").innerText="إخفاء الإجابة";
+  } else {
+    box.innerText="";
+    document.getElementById("showAnswerBtn").innerText="إظهار الإجابة";
+  }
+}
+
+// نظام نقاط الفرق
+function addPoint(team){
+  teamScores[team]++;
+  updateTeamBars();
+}
+
+function updateTeamBars(){
+  let totalPoints = Math.max(teamScores.green, teamScores.orange, 1);
+  let greenPercent = (teamScores.green / totalPoints) * 100;
+  let orangePercent = (teamScores.orange / totalPoints) * 100;
+
+  document.getElementById("greenBar").style.width = greenPercent + "%";
+  document.getElementById("orangeBar").style.width = orangePercent + "%";
+  document.getElementById("scoreText").innerText =
+    "نقاط الفرق: الأخضر " + teamScores.green + " - البرتقالي " + teamScores.orange;
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
