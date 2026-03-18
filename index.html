@@ -45,8 +45,24 @@ button {
 }
 button:hover { background: #33d6ff; }
 
-#showAnswerBtn { opacity: 0.1; font-size: 12px; }
-#showAnswerBtn:hover { opacity: 1; }
+/* تعديل لون زر إظهار/إخفاء الإجابة */
+#showAnswerBtn { 
+  opacity: 0.1; 
+  font-size: 12px; 
+  color: red; 
+}
+#showAnswerBtn:hover { 
+  opacity: 1; 
+}
+
+/* تعديل أزرار التالي والسابق */
+button.nextPrevBtn {
+  background-color: orange; 
+  color: black; 
+}
+button.nextPrevBtn:hover {
+  background-color: darkorange; 
+}
 
 #correctAnswer { color: #00ffcc; font-weight: bold; margin-top:10px; }
 #result { margin-top:10px; font-size:18px; }
@@ -84,8 +100,8 @@ button:hover { background: #33d6ff; }
 <p id="result"></p>
 <p id="correctAnswer"></p>
 <button id="showAnswerBtn" onclick="toggleAnswer()">إظهار الإجابة</button>
-<button onclick="nextQuestion()">➡️ السؤال التالي</button>
-<button onclick="prevQuestion()">⬅️ السؤال السابق</button>
+<button class="nextPrevBtn" onclick="nextQuestion()">➡️ السؤال التالي</button>
+<button class="nextPrevBtn" onclick="prevQuestion()">⬅️ السؤال السابق</button>
 
 <div class="teamBox">
   <div class="team">
